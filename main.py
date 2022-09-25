@@ -2,8 +2,6 @@ import os
 import discord
 import asyncio
 import random
-import jishaku
-import jishaku.jishaku
 from itertools import cycle
 from random import choice
 from discord.ext import commands
@@ -62,8 +60,6 @@ extensions = [
 if __name__ == '__main__':  # Ensures this is the file being ran
 	for extension in extensions:
 		bot.load_extension(extension)  # Loades every extension.
-
-bot.load_extension('jishaku')
 
 keep_alive()  # Starts a webserver to be pinged.
 bot.loop.create_task(change_status())  # Starts a task to change the status.

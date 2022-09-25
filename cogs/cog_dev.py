@@ -1,6 +1,8 @@
 import discord
 import json
 import os
+import contextlib
+import io
 from discord.ext import commands
 
 class DevCommands(commands.Cog, name='Developer Commands'):
@@ -85,6 +87,17 @@ class DevCommands(commands.Cog, name='Developer Commands'):
 			command.enabled = not command.enabled
 			tenary = "Enabled" if command.enabled else "Disabled"
 			await ctx.send(f"Command `{command.name}` has been {tenary}")
+	
+	@commands.command(name="eval", aliases=["exec"])
+	@commands.is_owner()
+	async def _eval(self, ctx, *, command):
+		try:
+			stdout = io.StringIO()
+			with contextlib.redirect_stdout(stdout):
+				exec(command)
+			await ctx.send(f"```py\n{stdout.getvalue()}\n```")
+		except Exception as e:
+			await ctx.send(f"{e}")
 
 def setup(bot):
 	bot.add_cog(DevCommands(bot))
